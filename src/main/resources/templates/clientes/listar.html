@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+</head>
+<body>
+
+    <h1>Clientes Cadastrados</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Contato</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Thymeleaf vai repetir essa linha para cada cliente -->
+            <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.id}">1</td>
+                <td th:text="${cliente.nome}">João</td>
+                <td th:text="${cliente.cpf}">123.456.789-00</td>
+                <td th:text="${cliente.contato}">(11) 99999-9999</td>
+                <td>
+                    <a th:href="@{'/clientes/' + ${cliente.id}}">Editar</a>
+                    <!-- Futuramente pode ter botão de excluir -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
