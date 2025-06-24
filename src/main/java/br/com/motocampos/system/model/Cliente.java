@@ -94,7 +94,11 @@ public class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
+	
+	public List<Moto> getMotos(){
+		return motos;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Cadastro de Cliente e Moto</title>
+</head>
+<body>
+	
+	<h1>Cadastro de Cliente e Moto</h1>
+	
+	<form th:object="${clienteMoto}" th:action="@{/clientes/cadastro-completo}" method="post">
+		
+		<label for="nome">Nome:</label>
+		<input type="text" th:field="*{nome}" placeholder="Digite o nome"/>
+		<br><br>
+		
+		<label for="cpf">CPF:</label>
+		<input type="text" th:field="*{cpf}" placeholder="Digite o CPF"/>
+		<br><br>
+		
+		<label for="Marca">Marca:</label>
+		<input type="text" th:field="*{marca}" placeholder="Informe a Marca"/>
+		<br><br>
+		
+		<label for="modelo">Modelo:</label>
+		<input type="text" th:field="*{modelo}" placeholder="Informe o Modelo da Moto"/>
+		<br><br>
+		
+		<label for="placa">Placa:</label>
+		<input type="text" th:field="*{placa}" placeholder="Digite a Placa"/>
+		
+		<button type="submit">Salvar</button>
+	</form>
+</body>

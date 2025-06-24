@@ -15,8 +15,7 @@ import jakarta.annotation.PostConstruct;
 public class MotoCamposSystemApplication {
 
 	@Autowired
-    private ClienteRepository clienteRepository;
-
+   
     public static void main(String[] args) {
         SpringApplication.run(MotoCamposSystemApplication.class, args);
     }
