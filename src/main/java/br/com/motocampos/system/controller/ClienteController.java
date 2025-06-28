@@ -58,10 +58,6 @@ public class ClienteController {
 	
 	@PostMapping("/cadastro-completo")
 	public String salvarComMoto(@ModelAttribute ClienteMotoDTO clienteMotoDTO) {
-		
-		System.out.println("DTO recebido: " + clienteMotoDTO.getNome() + " - " + clienteMotoDTO.getCpf());
-	    System.out.println("Moto: " + clienteMotoDTO.getMarca() + " / " + clienteMotoDTO.getModelo() + " / " + clienteMotoDTO.getPlaca());
-
 
 		Cliente cliente = new Cliente();
 		cliente.setNome(clienteMotoDTO.getNome());

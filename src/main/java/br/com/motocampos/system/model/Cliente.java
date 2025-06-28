@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ public class Cliente {
 	@Embedded
 	private Endereco endereco;
 	
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
 	private List<Moto>motos= new ArrayList<>();
 	
 	
