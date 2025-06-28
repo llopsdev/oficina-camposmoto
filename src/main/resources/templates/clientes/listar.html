@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Lista de Clientes</title>
+	<meta charset="UTF-8">
+	<title>Lista de Clientes</title>
 </head>
+
 <body>
 
-    <h1>Clientes Cadastrados</h1>
+	<h1>Clientes Cadastrados</h1>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Contato</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Thymeleaf vai repetir essa linha para cada cliente -->
-            <tr:block th:each="cliente : ${clientes}">
-                <td th:text="${cliente.id}"></td>
-                <td th:text="${cliente.nome}"></td>
-                <td th:text="${cliente.cpf}"></td>
-                <td th:text="${cliente.contato}"></td>
-                <td>
-                    <a th:href="@{'/clientes/' + ${cliente.id}}">Editar</a>
-                    <!-- Futuramente pode ter botão de excluir -->
-                </td>
-				<tr >
-								<td colspan ="3" >
-									<strong>MOTOS:</strong>
-																			<ul th:if="${cliente.motos != null and !#lists.isEmpty(cliente.motos)}">
-																				<li th:each="moto : ${cliente.motos}">
-																					<span th:text="${moto.marca} + ' - ' +${moto.modelo}+ ' - '+ ${moto.placa}"></span>
-																				</li>
-																			</ul>
-																			<span th:if="${cliente.motos == null or cliente.motos.size()== 0}">Nenhuma moto Cadastrada</span>
-																	</td>
-							</tr>
-            </tr:block>
-			
-				
-						
-        </tbody>
-    </table>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nome</th>
+				<th>CPF</th>
+				<th>Contato</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Thymeleaf vai repetir essa linha para cada cliente -->
+			<tr:block th:each="cliente : ${clientes}">
+				<td th:text="${cliente.id}"></td>
+				<td th:text="${cliente.nome}"></td>
+				<td th:text="${cliente.cpf}"></td>
+				<td th:text="${cliente.contato}"></td>
+				<td>
+					<a th:href="@{'/clientes/' + ${cliente.id}}">Editar</a>
+					<!-- Futuramente pode ter botão de excluir -->
+				</td>
+				<tr>
+					<td colspan="5">
+						<strong>MOTOS:</strong>
+						<ul th:if="${cliente.motos != null and !#lists.isEmpty(cliente.motos)}">
+							<li th:each="moto : ${cliente.motos}">
+								<span th:text="${moto.marca} + ' - ' +${moto.modelo}+ ' - '+ ${moto.placa}"></span>
+							</li>
+						</ul>
+						<span th:if="${cliente.motos == null or cliente.motos.size()== 0}">Nenhuma moto
+							Cadastrada</span>
+					</td>
+				</tr>
+			</tr:block>
+
+
+
+		</tbody>
+	</table>
 
 </body>
+
 </html>
