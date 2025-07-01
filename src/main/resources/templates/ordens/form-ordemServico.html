@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Ordens de Serviço</title>
+</head>
+
+<body>
+
+	<h1>Ordens de Serviço</h1>
+	
+	<!--Formulario de Ordem de Serviço-->
+	<form th:object="${ordemServico}" th:action="@{/ordens-servico}" method="post">
+		<!-- Descrição da Ordem de Serviço-->
+		<label>Descrição</label>
+		<input type="text" th:field="*{descricao}" placeholder="Ex: Troca de óleo." />
+		<br>
+	<!--Valor da OS-->
+		<label>Valor</label>
+		<input type="number" step="0.01" placeholder="Ex: 12.50"/>
+		<br>
+	<!--Status da Ordem-->
+		<label>Status</label>
+		<select th:field="*{status}">
+			<option value="" disabled selected>Selecione o Status</option>
+			<option th:each="s : ${status}" th:value="${s}" th:text="${s}"></option>
+		</select>
+	<!-- Moto vinculada a OS-->
+		<label>Moto</label>
+		<select th:fiel="*{moto}">
+			<option value="" disabled selected>Selecione uma Moto</option>
+			<option th:each="moto : ${motos}" 
+			th:value="${moto.id}" 
+			th:text="${moto.placa + '-'+ moto.marca + '-' + moto.modelo}">
+			</option>
+		</select>
+		<br>
+		<button type="submit">Salvar OS</button>
+		
+	</form>
+</body>
+</html>
