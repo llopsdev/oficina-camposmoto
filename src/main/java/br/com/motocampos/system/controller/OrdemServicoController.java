@@ -1,6 +1,7 @@
 package br.com.motocampos.system.controller;
 
 import java.io.ObjectInputFilter.Status;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.motocampos.system.enums.StatusOrdemServico;
+import br.com.motocampos.system.model.Cliente;
 import br.com.motocampos.system.model.OrdemServico;
 import br.com.motocampos.system.service.MotoService;
 import br.com.motocampos.system.service.OrdemServicoService;
@@ -34,6 +36,14 @@ public class OrdemServicoController {
 		model.addAttribute("status",StatusOrdemServico.values());
 		
 		return "ordens/form-ordemServico";
+	}
+	
+	@GetMapping
+	public String listarOrdens(Model model){
+		List<OrdemServico> list = service.findAll();
+		model.addAttribute("ordensServico",list);
+		return "ordens/listar";
+		
 	}
 	
 	@PostMapping
