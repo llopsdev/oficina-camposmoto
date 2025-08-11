@@ -1,16 +1,17 @@
 package br.com.motocampos.system.controller;
 
-import java.io.ObjectInputFilter.Status;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.motocampos.system.enums.StatusOrdemServico;
-import br.com.motocampos.system.model.Cliente;
+import br.com.motocampos.system.model.Moto;
 import br.com.motocampos.system.model.OrdemServico;
 import br.com.motocampos.system.service.MotoService;
 import br.com.motocampos.system.service.OrdemServicoService;
@@ -47,8 +48,22 @@ public class OrdemServicoController {
 	}
 	
 	@PostMapping
-	public String salvarOs(OrdemServico ordemServico) {
+	public String salvarOs(@RequestParam Long motoId,   OrdemServico ordemServico) {
+		Moto moto = motoService.findById(motoId).orElseThrow(() -> new IllegalArgumentException("Moto não encontrada"));
+		
+		ordemServico.setMoto(moto);
 		service.save(ordemServico);
 		return "redirect:/ordens-servico";
+	}
+	
+	public String detalharOrdem(@PathVariable Long id, Model model) {
+		OrdemServico ordemServico= service.findById(id).orElseThrow(() -> new IllegalArgumentException());
+		
+		model.addAttribute("ordem", ordemServico);
+		model.addAttribute("moto", ordemServico.getMoto());
+		model.addAttribute("cliente", ordemServico.getMoto().getCliente());
+		
+		return "ordens/detalhes";
+		
 	}
 }

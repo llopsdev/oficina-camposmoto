@@ -28,7 +28,7 @@
 		</select>
 	<!-- Moto vinculada a OS-->
 		<label>Moto</label>
-		<select th:fiel="*{moto}">
+		<select name="motoId">
 			<option value="" disabled selected>Selecione uma Moto</option>
 			<option th:each="moto : ${motos}" 
 			th:value="${moto.id}" 
