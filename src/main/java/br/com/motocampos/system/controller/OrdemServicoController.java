@@ -56,14 +56,29 @@ public class OrdemServicoController {
 		return "redirect:/ordens-servico";
 	}
 	
+	@GetMapping("/{id}")
 	public String detalharOrdem(@PathVariable Long id, Model model) {
 		OrdemServico ordemServico= service.findById(id).orElseThrow(() -> new IllegalArgumentException());
 		
 		model.addAttribute("ordem", ordemServico);
 		model.addAttribute("moto", ordemServico.getMoto());
-		model.addAttribute("cliente", ordemServico.getMoto().getCliente());
+		model.addAttribute("cliente", ordemServico.getMoto() != null ? ordemServico.getMoto().getCliente() : null);
 		
 		return "ordens/detalhes";
 		
 	}
+	@GetMapping("/{id}/status")
+	public String editarStatus(@PathVariable Long id, Model model) {
+		OrdemServico ordem = service.buscarPorId(id);
+		model.addAttribute("ordem",ordem);
+		model.addAttribute("statusList", StatusOrdemServico.values());
+		return "ordens/editar-status";
+		
+	}
+	@PostMapping("/{id}/status")
+	public String atualizarStatus(@PathVariable Long id, @RequestParam("status") StatusOrdemServico novoStatus) {
+		service.atualizarStatus(id, novoStatus);
+		return "redirect:/ordens-servico";
+	}
+	
 }

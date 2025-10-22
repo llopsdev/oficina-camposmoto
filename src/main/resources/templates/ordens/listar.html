@@ -30,12 +30,17 @@
 					<td th:text="${ordem.descricao}"></td>
 					<td th:text="${ordem.dataAbertura}"></td>
 					<td th:text=" 'R$' + ${#numbers.formatDecimal(ordem.valor, 2, 'COMMA' , 2, 'POINT')}"></td>
+					
 
 
 					<td th:if="${ordem.moto != null}" th:text="${ordem.moto.marca}"></td>
 					<td th:unless="${ordem.moto != null}" colspan="3">Moto nao cadastrada</td>
 					<td th:if="${ordem.moto != null}" th:text="${ordem.moto.placa}"></td>
 					<td th:if="${ordem.moto != null}" th:text="${ordem.moto.modelo}"></td>
+					<td>
+						<a th:href="@{ '/ordens-servico/' + ${ordem.id}}">Ver Detalhes</a>
+						<a th:href="@{ '/ordens-servico/' + ${ordem.id} + '/status'}">Editar Status</a>
+					</td>
 
 				</tr>
 			</tr:block>

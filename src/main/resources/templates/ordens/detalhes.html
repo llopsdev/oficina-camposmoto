@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Detalhes da Ordem de Serviço</title>
+</head>
+
+<body>
+
+	<h1>Detalhes da Ordem de Serviço</h1>
+
+	<!-- Dados da OS -->
+	<p><strong>ID:</strong> <span th:text="${ordem.id}"></span></p>
+	<p><strong>Descrição:</strong> <span th:text="${ordem.descricao}"></span></p>
+	<p><strong>Data de Abertura:</strong> <span th:text="${ordem.dataAbertura}"></span></p>
+	<p><strong>Data de Conclusão:</strong> <span th:text="${ordem.dataConclusao}"></span></p>
+	<p><strong>Valor:</strong> R$ <span th:text="${ordem.valor}"></span></p>
+	<p><strong>Status:</strong> <span th:text="${ordem.status}"></span></p>
+
+	<hr>
+
+	<!-- Dados da Moto -->
+	<h2>Moto</h2>
+	<p th:if="${moto != null}">
+		<strong>Placa:</strong> <span th:text="${moto.placa}"></span><br>
+		<strong>Marca:</strong> <span th:text="${moto.marca}"></span><br>
+		<strong>Modelo:</strong> <span th:text="${moto.modelo}"></span><br>
+	</p>
+	<p th:if="${moto == null}">
+		Nenhuma moto associada a esta ordem de serviço.
+	</p>
+
+	<hr>
+
+	<!-- Dados do Cliente -->
+	<h2>Cliente</h2>
+	<p th:if="${cliente != null}">
+		<strong>Nome:</strong> <span th:text="${cliente.nome}"></span><br>
+		<strong>CPF:</strong> <span th:text="${cliente.cpf}"></span><br>
+		<strong>Contato:</strong> <span th:text="${cliente.contato}"></span><br>
+	</p>
+	<p th:if="${cliente == null}">
+		Nenhum cliente associado a esta ordem de serviço.
+	</p>
+
+	<hr>
+
+	<a th:href="@{/ordens-servico}">Voltar para lista</a>
+
+</body>
+
+</html>

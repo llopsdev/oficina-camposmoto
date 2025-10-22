@@ -1,0 +1,29 @@
+"<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Atualizar Status</title>
+</head>
+
+<body>
+	<h2>Editar Status da Ordem nº [[${ordem.id}]]</h2>
+	
+	<form th:action="@{'/ordens-servico/' + ${ordem.id} + '/status'}" method="post">
+		<label for="status">Status</label>
+		<select name="status"	id="status" th:value="${ordem.status}">
+			<option th:each="status : ${statusList}"
+					th:value="${status}"
+					th:text="${status}"
+					th:selected="${status} == ${ordem.status}">
+			</option>			
+		</select>
+		
+		<button type="submit">Salvar</button>
+		
+	</form>
+	
+	<a th:href="@{/ordens-servico}">Voltar</a>
+	
+	
+</body>
+</html>

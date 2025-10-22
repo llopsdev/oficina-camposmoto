@@ -1,6 +1,7 @@
 package br.com.motocampos.system.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -32,6 +34,7 @@ public class OrdemServico {
 	@ManyToOne
 	private Moto moto;
 	
+	
 	public OrdemServico() {
 		
 	}
@@ -48,6 +51,38 @@ public class OrdemServico {
 		this.valor = valor;
 		this.status = status;
 		this.moto = moto;
+	}
+	
+	public void atualizarStatus(StatusOrdemServico novoStatus) {
+		//Garante que a O.S nao será alterada após concluida.
+		if(this.status==StatusOrdemServico.CONCLUIDO) {
+			throw new IllegalStateException("Não é permitido altarar o status de uma O.S ja Concluida");
+		}
+		//Valida a transicao de Status
+		boolean transicaoValida= false;
+		
+		switch(this.status) {
+		case ABERTO:
+			transicaoValida=(novoStatus==StatusOrdemServico.EM_ANDAMENTO);
+			break;
+		case EM_ANDAMENTO:
+			transicaoValida=(novoStatus == StatusOrdemServico.CONCLUIDO);
+			break;
+		default:
+			transicaoValida=false;
+		}
+		
+		if(!transicaoValida) {
+			throw new IllegalArgumentException("Não é possivel alterar o status de: "+this.status+" para: "+novoStatus);
+		}
+		//atualiza o status
+		this.status=novoStatus;
+		
+		//Registra a data e hora da conclusao
+		if(novoStatus==status.CONCLUIDO) {
+			this.dataConclusao=LocalDateTime.now();
+		}
+		
 	}
 
 
@@ -127,6 +162,7 @@ public class OrdemServico {
 	}
 
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
