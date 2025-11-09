@@ -4,17 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.motocampos.system.DTO.OrdemServicoEditDTO;
 import br.com.motocampos.system.enums.StatusOrdemServico;
 import br.com.motocampos.system.model.Moto;
 import br.com.motocampos.system.model.OrdemServico;
 import br.com.motocampos.system.service.MotoService;
 import br.com.motocampos.system.service.OrdemServicoService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/ordens-servico")
@@ -27,7 +32,44 @@ public class OrdemServicoController {
 		this.service=service;
 		this.motoService=motoService;
 	}
+	@GetMapping("/{id}/editar")
+	public String abrirFormularioEdicao(@PathVariable Long id, Model model, RedirectAttributes ra) {
+		OrdemServico os = service.findByIdOrThrow(id);
+		
+		OrdemServicoEditDTO dto = new OrdemServicoEditDTO();
+		dto.setDescricao(os.getDescricao());
+		dto.setValor(os.getValor());
+		dto.setObservacoes(os.getObservacoes());
+		dto.setStatus(os.getStatus());
+		
+		model.addAttribute("ordemServicoEditDTO",dto);
+		model.addAttribute("ordemId",id);
+		model.addAttribute("statusList", StatusOrdemServico.values());
+		return "ordens/editar-ordem-servico";//path do thymeleaf
+	}
 	
+	public String salvarEdicao(@PathVariable Long id,
+			@Valid @ModelAttribute("ordemServicoEditDTO") OrdemServicoEditDTO dto,
+			BindingResult bindingResult,
+			Model model,
+			RedirectAttributes redirectAttributes) {
+		 if(bindingResult.hasErrors()) {
+			 model.addAttribute("statusList", StatusOrdemServico.values());
+			 model.addAttribute("ordemId",id);
+			 return "ordens/editar-ordem-servico";
+		 }
+		 
+		 try {
+			 service.editarOrdemServico(id, dto);
+			 redirectAttributes.addFlashAttribute("sucesso", "Ordem de serviço atualizada com Sucesso");
+			 return "redirect:/ordens-servico/" + id + "/detalhe";
+		 }catch(IllegalStateException ex) {
+			 bindingResult.reject("globalError",ex.getMessage());
+			 model.addAttribute("statusList", StatusOrdemServico.values());
+			 model.addAttribute("ordemId",id);
+			 return "ordens/editar-ordem-servico";
+		 }
+	}
 	
 	@GetMapping("/form")
 	public String mostrarFormOrdem(Model model) {

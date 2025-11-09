@@ -28,6 +28,7 @@ public class OrdemServico {
 	private LocalDateTime dataConclusao;
 	@Column(precision = 10, scale = 2)
 	private BigDecimal valor;
+	private String observacoes;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusOrdemServico status;
@@ -42,15 +43,17 @@ public class OrdemServico {
 
 
 	public OrdemServico(Long id, String descricao, LocalDateTime dataAbertura, LocalDateTime dataConclusao,
-			BigDecimal valor, StatusOrdemServico status, Moto moto) {
+			BigDecimal valor,String observacoes, StatusOrdemServico status, Moto moto) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.dataAbertura = dataAbertura;
 		this.dataConclusao = dataConclusao;
 		this.valor = valor;
+		this.observacoes=observacoes;
 		this.status = status;
 		this.moto = moto;
+		
 	}
 	
 	public void atualizarStatus(StatusOrdemServico novoStatus) {
@@ -133,6 +136,13 @@ public class OrdemServico {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+	public String getObservacoes() {
+		return observacoes;
+	}
+	
+	public void setObservacoes(String observacoes) {
+		this.observacoes=observacoes;
 	}
 
 
