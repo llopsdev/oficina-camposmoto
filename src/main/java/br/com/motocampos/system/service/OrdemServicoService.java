@@ -75,4 +75,12 @@ public class OrdemServicoService {
 	public void delete(OrdemServico os) {
 		ordemRepository.delete(os);
 	}
+	public OrdemServicoEditDTO toDTO(OrdemServico os) {
+		OrdemServicoEditDTO dto = new OrdemServicoEditDTO();
+		dto.setDescricao(os.getDescricao());
+		dto.setValor(os.getValor());
+		dto.setObservacoes(os.getObservacoes());
+		dto.setStatus(os.getStatus());
+		return dto;
+	}
 }

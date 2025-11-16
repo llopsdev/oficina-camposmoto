@@ -33,21 +33,17 @@ public class OrdemServicoController {
 		this.motoService=motoService;
 	}
 	@GetMapping("/{id}/editar")
-	public String abrirFormularioEdicao(@PathVariable Long id, Model model, RedirectAttributes ra) {
+	public String abrirFormularioEdicao(@PathVariable Long id, Model model) {
 		OrdemServico os = service.findByIdOrThrow(id);
 		
-		OrdemServicoEditDTO dto = new OrdemServicoEditDTO();
-		dto.setDescricao(os.getDescricao());
-		dto.setValor(os.getValor());
-		dto.setObservacoes(os.getObservacoes());
-		dto.setStatus(os.getStatus());
+		OrdemServicoEditDTO dto = service.toDTO(os);
 		
 		model.addAttribute("ordemServicoEditDTO",dto);
 		model.addAttribute("ordemId",id);
 		model.addAttribute("statusList", StatusOrdemServico.values());
 		return "ordens/editar-ordem-servico";//path do thymeleaf
 	}
-	
+	@PostMapping("/{id}/editar")
 	public String salvarEdicao(@PathVariable Long id,
 			@Valid @ModelAttribute("ordemServicoEditDTO") OrdemServicoEditDTO dto,
 			BindingResult bindingResult,

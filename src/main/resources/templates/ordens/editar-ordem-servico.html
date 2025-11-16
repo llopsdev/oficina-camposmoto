@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.com.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Editar Ordem de Serviço</title>
+	<link rel="stylesheet" href="@{/css/style.css}">
+</head>
+<body>
+	<h2>Editar Ordem de Serviço</h2>
+	
+	<!-- Mensagem de Sucesso-->
+	<div th:if="${sucesso}" class="alert alert-sucesso" th:text="${sucesso}"></div>
+	
+	
+	
+	<form th:action="@{'/ordens-servico/' + ${ordemId} + '/editar'}"
+		  th:object="${ordemServicoEditDTO}"
+	      method="post">
+		  
+		  <!-- Mensagem de Erro global-->
+	 	<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+		  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+		 </div>	
+			
+		 <div>
+			<label>Descrição:</label>
+			<input type="text" th:field="*{descricao}">
+		 	<div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="text-danger"></div>
+		 </div>
+	
+		 <div>
+			<label>Valor:</label>
+			<input type="number" step="0.01" th:field="*{valor}">
+			<div th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="text-danger"><div>"
+		 </div>
+		 <div>
+			<label>Observacoes: </label>
+			<textarea th:field="*{observacoes}"></textarea>
+		 </div>
+		 
+		 <div>
+			<label>Status:</label>
+			<select th:field="*{status}">
+				<option th:each="st: ${statuslist}"
+				        th:value="${st}"
+						th:text="${st}">
+				</option>
+			</select>
+			<div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-danger"></div>
+		 </div>
+		 
+		 <br>
+		 <button type="submit">Salvar Alteração</button>
+		 <a th:href="@{'/ordens-servico/' + ${ordemId} + '/detalhe'}">Cancelar</a>
+		 
+	</form>
+	
+</body>
+
+
+</html>
