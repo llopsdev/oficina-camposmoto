@@ -26,16 +26,8 @@ public class Peca {
 	@PositiveOrZero
 	private Integer quantidadeEstoque;
 	
-	public Peca() {
+	private Peca() {
 		
-	}
-
-	public Peca(Long id, String nome, BigDecimal preco, Integer quantidadeEstoque) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
 	public Long getId() {
@@ -50,7 +42,7 @@ public class Peca {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	private void setNome(String nome) {
 		this.nome = nome;
 	}
 
@@ -58,7 +50,7 @@ public class Peca {
 		return preco;
 	}
 
-	public void setPreco(BigDecimal preco) {
+	private void setPreco(BigDecimal preco) {
 		
 		this.preco = preco;
 	}
@@ -70,21 +62,55 @@ public class Peca {
 	private void setQuantidadeEstoque(Integer quantidadeEstoque) {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
+	public static Peca criarNova(String nomePeca,BigDecimal precoPeca) {
+		if(nomePeca==null || nomePeca.isBlank()) {
+			throw new IllegalArgumentException("Nome da Peça é Obrigatorio!");
+		}
+		if(precoPeca==null || precoPeca.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("Preço da peça deve ser Obrigatorio!");
+		}
+		//Novo objeto para retornar o metodo
+		Peca p= new Peca();
+		p.nome=nomePeca;
+		p.preco=precoPeca;
+		p.quantidadeEstoque=0;
+		
+		return p;
+		
+	}
+	
 	
 	public void addQuantidadeEstoque(Integer qtd) {
-		if(qtd<0) {
-			throw new IllegalArgumentException("A quantidade informada nao pode ser negativa.");
+		if(qtd == null || qtd<0) {
+			throw new IllegalArgumentException("A quantidade informada nao pode ser negativa ou nula.");
 		}
 		quantidadeEstoque+=qtd;
 	}
 	public void removerQuantidadeEstoque(Integer qtd) {
-		if(qtd<0) {
+		if(qtd == null || qtd<0) {
 			throw new IllegalArgumentException("A quantidade informada nao pode ser negativa.");
 		}
 		if(qtd>this.quantidadeEstoque) {
 			throw new IllegalStateException("Estoque Insuficiente.");
 		}
 		quantidadeEstoque-=qtd;
+	}
+	
+	public void atualizarPreco(BigDecimal novoPreco) {
+		if(novoPreco==null || novoPreco.compareTo(BigDecimal.ZERO)<0) {
+			throw new IllegalArgumentException("O preco nao pode ser Nulo nem Negativo");
+		}
+		this.preco=novoPreco;
+	}
+	
+	public void renomear(String novoNome) {
+		if(novoNome==null || novoNome.isBlank()) {
+			throw new IllegalArgumentException("É Obrigatorio informar um nome.");
+		}
+		if(novoNome.equals(this.nome)) {
+			throw new IllegalArgumentException("Nome deve ser diferente do nome atual.");
+		}
+		this.nome = novoNome;
 	}
 	@Override
 	public int hashCode() {
