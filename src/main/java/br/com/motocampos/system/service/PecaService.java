@@ -1,11 +1,13 @@
 package br.com.motocampos.system.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.motocampos.system.DTO.PecaDTO;
+import br.com.motocampos.system.exeptions.ResourceNotFoundException;
 import br.com.motocampos.system.model.Peca;
 import br.com.motocampos.system.repository.PecaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,4 +52,28 @@ public class PecaService {
 	
 	}
 	
+	public List<Peca> findAll(){
+		return pecaRepository.findAll();
+	}
+	
+	public Peca findById(Long id) {
+		return pecaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Peça nao encontrada: "+id));
+	}
+	
+	public PecaDTO toDTO(Peca peca) {
+		PecaDTO dto = new PecaDTO();
+		dto.setNomeDTO(peca.getNome());
+		dto.setPrecoDTO(peca.getPreco());
+		return dto;
+	}
+	
+	public void entradaEstoque(Long id, Integer qtd) {
+		Peca peca = pecaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Peça nao encontrada: "+ id));
+		peca.addQuantidadeEstoque(qtd);
+	}
+	
+	public void saidaEstoque(Long id, Integer qtd ) {
+		Peca peca = pecaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Peça não encontrada: "+ id));
+		peca.removerQuantidadeEstoque(qtd);
+	}
 }
