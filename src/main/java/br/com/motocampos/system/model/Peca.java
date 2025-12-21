@@ -1,6 +1,7 @@
 package br.com.motocampos.system.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,8 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
@@ -25,6 +26,9 @@ public class Peca {
 	private BigDecimal preco;
 	@PositiveOrZero
 	private Integer quantidadeEstoque;
+	
+	@OneToMany(mappedBy = "peca")	
+	private List<MovimentacaoEstoque> listaMovimentacaoEstoque;
 	
 	private Peca() {
 		
